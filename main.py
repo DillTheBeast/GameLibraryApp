@@ -1,13 +1,16 @@
 import PySimpleGUI as sg
 
+WIDTH, HEIGHT = 800, 800
+custom_font = ('Helvetica', 20)
+
 def main():
     # Define the layout of the window
     layout = [
-        [sg.Button('Click me')],
+        [sg.Button('Click me', font = custom_font, size = (20, 10))],
     ]
 
-    # Create the window
-    window = sg.Window('Simple PySimpleGUI App', layout)
+    # Create the window with a specific size
+    window = sg.Window('Bigger PySimpleGUI App', layout, size = (WIDTH, HEIGHT))
 
     # Event loop
     while True:
