@@ -13,13 +13,20 @@ BLACK = rgb_to_hex(BLACK)
 WHITE = rgb_to_hex(WHITE)
 GREY = rgb_to_hex(GREY)
 
-selected = False
+selected_directories = []
 
-def main():
-    # Define the layout of the window
+def create_layout():
     layout = [
         [sg.Button('Add a Game', font=custom_font, size=(80, 2), button_color=(WHITE, GREY), key='add_game_button')],
     ]
+
+    for idx, directory in enumerate(selected_directories):
+        layout.append([sg.Button(f'Directory {idx + 1}', key=f'button_{idx}')])
+
+    return layout
+
+def main():
+    layout = create_layout()
 
     # Create the window with a specific size
     window = sg.Window('Game Library', layout, size=(WIDTH, HEIGHT), background_color=BLACK)
@@ -71,8 +78,21 @@ def main():
                     # Do something with the selected directory (print it for now)
                     print(f'Selected directory: {selected_directory}')
 
+                    # Add the selected directory to the list
+                    selected_directories.append(selected_directory)
+
+                    # Recreate the layout and update the window
+                    layout = create_layout()
+                    window.close()
+                    window = sg.Window('Game Library', layout, size=(WIDTH, HEIGHT), background_color=BLACK)
+
                 # Close the second window
                 window_second.close()
+
+        # Check if any directory button is clicked
+        for idx, directory in enumerate(selected_directories):
+            if event == f'button_{idx}':
+                print(f'Button {idx + 1} clicked for directory: {directory}')
 
     # Close the main window
     window.close()
